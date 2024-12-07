@@ -1,7 +1,7 @@
 #ifndef RENDERER_H
 #define RENDERER_H
 
-#include <vector>
+
 #include "SDL.h"
 #include "snake.h"
 
