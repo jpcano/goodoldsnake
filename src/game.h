@@ -1,10 +1,12 @@
 #ifndef GAME_H
 #define GAME_H
 
+#include <array>
 #include <random>
 
 #include "SDL.h"
 #include "controller.h"
+#include "food.h"
 #include "renderer.h"
 #include "snake.h"
 
@@ -18,13 +20,7 @@ class Game {
 
  private:
   Snake snake;
-  SDL_Point food;
-
-  std::random_device dev;
-  std::mt19937 engine;
-  std::uniform_int_distribution<int> random_w;
-  std::uniform_int_distribution<int> random_h;
-
+  Food food;
   int score{0};
 
   void PlaceFood();

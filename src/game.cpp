@@ -1,13 +1,10 @@
 #include "game.h"
 
-
 #include "SDL.h"
+#include "food.h"
 
 Game::Game(std::size_t grid_width, std::size_t grid_height)
-    : snake(grid_width, grid_height),
-      engine(dev()),
-      random_w(0, static_cast<int>(grid_width - 1)),
-      random_h(0, static_cast<int>(grid_height - 1)) {
+    : snake(grid_width, grid_height), food(grid_width, grid_height) {
   PlaceFood();
 }
 
@@ -52,18 +49,9 @@ void Game::Run(Controller const &controller, Renderer &renderer,
 }
 
 void Game::PlaceFood() {
-  int x, y;
-  while (true) {
-    x = random_w(engine);
-    y = random_h(engine);
-    // Check that the location is not occupied by a snake item before placing
-    // food.
-    if (!snake.SnakeCell(x, y)) {
-      food.x = x;
-      food.y = y;
-      return;
-    }
-  }
+  do {
+    food.generate(FoodType::kSmall);
+  } while (snake.SnakeCell(food.getX(), food.getY()));
 }
 
 void Game::Update() {
@@ -75,8 +63,8 @@ void Game::Update() {
   int new_y = static_cast<int>(snake.head_y);
 
   // Check if there's food over here
-  if (food.x == new_x && food.y == new_y) {
-    score++;
+  if (food.getX() == new_x && food.getY() == new_y) {
+    score += food.getPoints();
     PlaceFood();
     // Grow snake and increase speed.
     snake.GrowBody();
