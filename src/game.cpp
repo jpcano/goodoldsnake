@@ -31,8 +31,8 @@ void Game::Run(Controller const &controller, Renderer &renderer,
     controller.HandleInput(running, pause, snake);
     if (!pause) {
       Update();
+      renderer.Render(snake, food);
     }
-    renderer.Render(snake, food);
 
     frame_end = SDL_GetTicks();
 
