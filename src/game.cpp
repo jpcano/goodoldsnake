@@ -86,3 +86,4 @@ void Game::Update() {
 
 int Game::GetScore() const { return score; }
 int Game::GetSize() const { return snake.size; }
+std::string Game::GetPlayerName() const { return player_name; }

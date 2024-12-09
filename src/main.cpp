@@ -1,5 +1,4 @@
 #include <algorithm>
-#include <cstdlib>
 #include <cxxopts.hpp>
 #include <iostream>
 #include <string>
@@ -7,6 +6,16 @@
 #include "controller.h"
 #include "game.h"
 #include "renderer.h"
+#include "score.h"
+
+using json = nlohmann::json;
+
+void printScores(const std::vector<ScoreItem>& scores) {
+  for (auto& i : scores) {
+    std::cout << "Time: " << i.ts << " | Score: " << i.score
+              << " | Size: " << i.size << " | Name: " << i.name << std::endl;
+  }
+}
 
 int main(int argc, char** argv) {
   cxxopts::Options options(argv[0],
@@ -41,7 +50,15 @@ int main(int argc, char** argv) {
   Game game(kGridWidth, kGridHeight, result["name"].as<std::string>());
   game.Run(controller, renderer, kMsPerFrame);
   std::cout << "Game has terminated successfully!\n";
+  std::cout << "Player name: " << game.GetPlayerName() << "\n";
   std::cout << "Score: " << game.GetScore() << "\n";
   std::cout << "Size: " << game.GetSize() << "\n";
+
+  Score score(game, "score.json");
+  std::cout << "BY SCORE:" << std::endl;
+  printScores(score.GetEntriesByScore(5));
+  std::cout << "BY SIZE:" << std::endl;
+  printScores(score.GetEntriesBySize(5));
+  score.Save();
   return 0;
 }

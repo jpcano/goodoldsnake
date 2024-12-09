@@ -24,6 +24,7 @@ add_executable(SnakeGame
   src/renderer.cpp
   src/snake.cpp
   src/food.cpp
+  src/score.cpp
 )
 string(STRIP ${SDL2_LIBRARIES} SDL2_LIBRARIES)
 target_link_libraries(SnakeGame ${SDL2_LIBRARIES})
@@ -39,4 +40,13 @@ CPMAddPackage(
     "CXXOPTS_ENABLE_INSTALL YES"
 )
 
+CPMAddPackage(
+  NAME nlohmann_json
+  VERSION 3.11.3
+  GITHUB_REPOSITORY nlohmann/json
+  OPTIONS
+  "JSON_BuildTests OFF"
+)
+
 target_link_libraries(SnakeGame cxxopts::cxxopts)
+target_link_libraries(SnakeGame nlohmann_json::nlohmann_json)
