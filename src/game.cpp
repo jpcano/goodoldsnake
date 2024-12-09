@@ -1,5 +1,6 @@
 #include "game.h"
 
+#include <iostream>
 #include <string>
 
 #include "SDL.h"
@@ -21,13 +22,16 @@ void Game::Run(Controller const &controller, Renderer &renderer,
   Uint32 frame_duration;
   int frame_count = 0;
   bool running = true;
+  bool pause = false;
 
   while (running) {
     frame_start = SDL_GetTicks();
 
     // Input, Update, Render - the main game loop.
-    controller.HandleInput(running, snake);
-    Update();
+    controller.HandleInput(running, pause, snake);
+    if (!pause) {
+      Update();
+    }
     renderer.Render(snake, food);
 
     frame_end = SDL_GetTicks();
@@ -47,6 +51,8 @@ void Game::Run(Controller const &controller, Renderer &renderer,
     // If the time for this frame is too small (i.e. frame_duration is
     // smaller than the target ms_per_frame), delay the loop to
     // achieve the correct frame rate.
+    std::cout << "Frame duration: " << frame_duration
+              << ", Target duration: " << target_frame_duration << std::endl;
     if (frame_duration < target_frame_duration) {
       SDL_Delay(target_frame_duration - frame_duration);
     }
