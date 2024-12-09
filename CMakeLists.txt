@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.7)
+cmake_minimum_required(VERSION 3.20)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
@@ -7,6 +7,8 @@ add_definitions(-std=c++17)
 
 set(CXX_FLAGS "-Wall")
 set(CMAKE_CXX_FLAGS, "${CXX_FLAGS}")
+
+include(cmake/CPM.cmake)
 
 project(SDL2Test)
 
@@ -25,3 +27,16 @@ add_executable(SnakeGame
 )
 string(STRIP ${SDL2_LIBRARIES} SDL2_LIBRARIES)
 target_link_libraries(SnakeGame ${SDL2_LIBRARIES})
+
+# the install option has to be explicitly set to allow installation
+CPMAddPackage(
+  NAME cxxopts
+  GITHUB_REPOSITORY jarro2783/cxxopts
+  VERSION 3.2.0
+  OPTIONS
+    "CXXOPTS_BUILD_EXAMPLES NO"
+    "CXXOPTS_BUILD_TESTS NO"
+    "CXXOPTS_ENABLE_INSTALL YES"
+)
+
+target_link_libraries(SnakeGame cxxopts::cxxopts)

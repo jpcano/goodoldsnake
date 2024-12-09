@@ -1,10 +1,31 @@
+#include <algorithm>
+#include <cstdlib>
+#include <cxxopts.hpp>
 #include <iostream>
 
 #include "controller.h"
 #include "game.h"
 #include "renderer.h"
 
-int main() {
+int main(int argc, char** argv) {
+  cxxopts::Options options(argv[0],
+                           "Snake Game Udacity Nanodegree Capstone Project");
+  options.add_options()("v,version", "Display the version",
+                        cxxopts::value<bool>()->default_value("false"))(
+      "h,help", "Print usage");
+
+  auto result = options.parse(argc, argv);
+
+  if (result.count("help")) {
+    std::cout << options.help() << std::endl;
+    exit(0);
+  }
+
+  if (result["version"].as<bool>()) {
+    std::cout << "Snake Game v1.0" << std::endl;
+    exit(0);
+  }
+
   constexpr std::size_t kFramesPerSecond{60};
   constexpr std::size_t kMsPerFrame{1000 / kFramesPerSecond};
   constexpr std::size_t kScreenWidth{640};
