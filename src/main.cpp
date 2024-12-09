@@ -2,6 +2,7 @@
 #include <cstdlib>
 #include <cxxopts.hpp>
 #include <iostream>
+#include <string>
 
 #include "controller.h"
 #include "game.h"
@@ -10,9 +11,11 @@
 int main(int argc, char** argv) {
   cxxopts::Options options(argv[0],
                            "Snake Game Udacity Nanodegree Capstone Project");
-  options.add_options()("v,version", "Display the version",
-                        cxxopts::value<bool>()->default_value("false"))(
-      "h,help", "Print usage");
+  options.add_options()("h,help", "Print usage")(
+      "v,version", "Display the version",
+      cxxopts::value<bool>()->default_value("false"))(
+      "n,name", "User name",
+      cxxopts::value<std::string>()->default_value("Anonymous"));
 
   auto result = options.parse(argc, argv);
 
@@ -35,7 +38,7 @@ int main(int argc, char** argv) {
 
   Renderer renderer(kScreenWidth, kScreenHeight, kGridWidth, kGridHeight);
   Controller controller;
-  Game game(kGridWidth, kGridHeight);
+  Game game(kGridWidth, kGridHeight, result["name"].as<std::string>());
   game.Run(controller, renderer, kMsPerFrame);
   std::cout << "Game has terminated successfully!\n";
   std::cout << "Score: " << game.GetScore() << "\n";

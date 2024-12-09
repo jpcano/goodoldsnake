@@ -1,10 +1,15 @@
 #include "game.h"
 
+#include <string>
+
 #include "SDL.h"
 #include "food.h"
 
-Game::Game(std::size_t grid_width, std::size_t grid_height)
-    : snake(grid_width, grid_height), food(grid_width, grid_height) {
+Game::Game(std::size_t grid_width, std::size_t grid_height,
+           std::string player_name)
+    : snake(grid_width, grid_height),
+      food(grid_width, grid_height),
+      player_name(player_name) {
   PlaceFood();
 }
 
@@ -34,7 +39,7 @@ void Game::Run(Controller const &controller, Renderer &renderer,
 
     // After every second, update the window title.
     if (frame_end - title_timestamp >= 1000) {
-      renderer.UpdateWindowTitle(score, frame_count);
+      renderer.UpdateWindowTitle(score, frame_count, player_name);
       frame_count = 0;
       title_timestamp = frame_end;
     }
@@ -50,7 +55,8 @@ void Game::Run(Controller const &controller, Renderer &renderer,
 
 void Game::PlaceFood() {
   do {
-    food.generate(FoodType::kSmall);
+    // food.generate(FoodType::kSmall);
+    food.generate();
   } while (snake.SnakeCell(food.getX(), food.getY()));
 }
 
