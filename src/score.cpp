@@ -63,5 +63,8 @@ std::vector<ScoreItem> Score::SortEntriesBy(const std::string& by) {
 
 std::vector<ScoreItem> Score::SliceLimit(const std::vector<ScoreItem>& scores,
                                          size_t limit) {
-  return std::vector<ScoreItem>(scores.begin(), scores.begin() + limit);
+  if (scores.size() <= limit)
+    return scores;
+  else
+    return std::vector<ScoreItem>(scores.begin(), scores.begin() + limit);
 }
