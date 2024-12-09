@@ -24,7 +24,9 @@ int main(int argc, char** argv) {
       "v,version", "Display the version",
       cxxopts::value<bool>()->default_value("false"))(
       "n,name", "User name",
-      cxxopts::value<std::string>()->default_value("Anonymous"));
+      cxxopts::value<std::string>()->default_value("Anonymous"))(
+      "s,scorefile", "Score file",
+      cxxopts::value<std::string>()->default_value("score.json"));
 
   auto result = options.parse(argc, argv);
 
@@ -54,7 +56,7 @@ int main(int argc, char** argv) {
   std::cout << "Score: " << game.GetScore() << "\n";
   std::cout << "Size: " << game.GetSize() << "\n";
 
-  Score score(game, "score.json");
+  Score score(game, result["scorefile"].as<std::string>());
   std::cout << "BY SCORE:" << std::endl;
   printScores(score.GetEntriesByScore(5));
   std::cout << "BY SIZE:" << std::endl;
