@@ -3,8 +3,7 @@
 #include <ctime>
 #include <fstream>
 
-Score::Score(const Game& game, const std::string& filename)
-    : _filename(filename) {
+Score::Score(const std::string& filename) : _filename(filename) {
   try {
     std::ifstream in(_filename);
     in.exceptions(std::ifstream::failbit);
@@ -12,6 +11,14 @@ Score::Score(const Game& game, const std::string& filename)
   } catch (const std::ios_base::failure& fail) {
     _score = {{"entries", json::array()}};
   }
+}
+
+void Score::Save() {
+  std::ofstream out(_filename);
+  out << _score.dump(2) << std::endl;
+}
+
+void Score::Push(const Game& game) {
   json entry;
   std::time_t ts = std::time(nullptr);
   char* ts_asc = std::asctime(std::gmtime(&ts));
@@ -22,11 +29,6 @@ Score::Score(const Game& game, const std::string& filename)
   entry["size"] = game.GetSize();
 
   _score["entries"].push_back(entry);
-}
-
-void Score::Save() {
-  std::ofstream out(_filename);
-  out << _score.dump(2) << std::endl;
 }
 
 std::vector<ScoreItem> Score::GetEntriesByScore() {

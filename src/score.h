@@ -18,8 +18,9 @@ struct ScoreItem {
 
 class Score {
  public:
-  Score(const Game &game, const std::string &filename);
+  Score(const std::string &filename);
   void Save();
+  void Push(const Game &game);
   std::vector<ScoreItem> GetEntriesByScore(size_t limit);
   std::vector<ScoreItem> GetEntriesByScore();
   std::vector<ScoreItem> GetEntriesBySize(size_t limit);

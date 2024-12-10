@@ -11,10 +11,12 @@
 using json = nlohmann::json;
 
 void printScores(const std::vector<ScoreItem>& scores) {
-  for (auto& i : scores) {
-    std::cout << "Time: " << i.ts << " | Score: " << i.score
-              << " | Size: " << i.size << " | Name: " << i.name << std::endl;
-  }
+  if (scores.size() == 0)
+    std::cout << "No scores registered in the game" << std::endl;
+  else
+    for (auto& i : scores)
+      std::cout << "Time: " << i.ts << " | Score: " << i.score
+                << " | Size: " << i.size << " | Name: " << i.name << std::endl;
 }
 
 int main(int argc, char** argv) {
@@ -25,8 +27,10 @@ int main(int argc, char** argv) {
       cxxopts::value<bool>()->default_value("false"))(
       "n,name", "User name",
       cxxopts::value<std::string>()->default_value("Anonymous"))(
-      "s,scorefile", "Score file",
-      cxxopts::value<std::string>()->default_value("score.json"));
+      "f,file", "Score file",
+      cxxopts::value<std::string>()->default_value("score.json"))(
+      "s,scores", "Display the scores",
+      cxxopts::value<bool>()->default_value("false"));
 
   auto result = options.parse(argc, argv);
 
@@ -37,6 +41,15 @@ int main(int argc, char** argv) {
 
   if (result["version"].as<bool>()) {
     std::cout << "Snake Game v1.0" << std::endl;
+    exit(0);
+  }
+
+  if (result["scores"].as<bool>()) {
+    Score score(result["file"].as<std::string>());
+    std::cout << "BY SCORE:" << std::endl;
+    printScores(score.GetEntriesByScore());
+    std::cout << "BY SIZE:" << std::endl;
+    printScores(score.GetEntriesBySize());
     exit(0);
   }
 
@@ -56,7 +69,8 @@ int main(int argc, char** argv) {
   std::cout << "Score: " << game.GetScore() << "\n";
   std::cout << "Size: " << game.GetSize() << "\n";
 
-  Score score(game, result["scorefile"].as<std::string>());
+  Score score(result["file"].as<std::string>());
+  score.Push(game);
   std::cout << "BY SCORE:" << std::endl;
   printScores(score.GetEntriesByScore(5));
   std::cout << "BY SIZE:" << std::endl;
