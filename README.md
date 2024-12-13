@@ -38,17 +38,17 @@ In this project, you can build your own C++ application or extend this Snake gam
 4. The game now saves the scores in a file and displays a scoreboard when the game exits.
 5. When the snakes eats food, it needs 4 seconds to digest it. If a new food is eaten while the snake is digesting the previous food then the it dies.
 6. Added CLI arguments to the executable:
-   * --name: Sets the name of the player
-   * --file: Sets the name of the file used to save the scores
-   * --scores: View the scores ordered by points and snake's size
-   * --help: Displays help information about how to use the CLI
+   * `--name`: Sets the name of the player
+   * `--file`: Sets the name of the file used to save the scores
+   * `--scores`: View the scores ordered by points and snake's size
+   * `--help`: Displays help information about how to use the CLI
 
 ## Rubric points addresed
 
 1. README (All Rubric Points REQUIRED)
-   * A README with instructions is included with the project
-   * The README indicates the new features I added to the game.
-   * The README includes information about each rubric point addressed.
+   * A README with instructions is included with the project: **This is what you are reading now.**
+   * The README indicates the new features I added to the game. **See the previous section I added.**
+   * The README includes information about each rubric point addressed. **See the next section I added.**
 
 2. Compiling and Testing (All Rubric Points REQUIRED)
    * The submission must compile and run without errors on the Udacity project workspace: **I verified the the project compiles in the workspace without errors.**
