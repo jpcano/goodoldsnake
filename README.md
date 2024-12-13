@@ -46,12 +46,12 @@ In this project, you can build your own C++ application or extend this Snake gam
 ## Rubric points addresed
 
 1. README (All Rubric Points REQUIRED)
-   * A README with instructions is included with the project: **This is what you are reading now.**
-   * The README indicates the new features I added to the game. **See the previous section I added.**
-   * The README includes information about each rubric point addressed. **See the next section I added.**
+   * :white_check_mark: A README with instructions is included with the project: **This is what you are reading now.**
+   * :white_check_mark: The README indicates the new features I added to the game. **See the previous section I added.**
+   * :white_check_mark: The README includes information about each rubric point addressed. **See the next section I added.**
 
 2. Compiling and Testing (All Rubric Points REQUIRED)
-   * The submission must compile and run without errors on the Udacity project workspace: **I verified the the project compiles in the workspace without errors.**
+   * :white_check_mark: The submission must compile and run without errors on the Udacity project workspace: **I verified the the project compiles in the workspace without errors.**
 
 3. Loops, Functions, I/O - meet at least 2 criteria
    * :white_check_mark: The project reads data from a file and process the data, or the program writes data to a file: **The game writes the scoreboard in a JSON file on the disk and it is read at the end of the game to display the scoreboard sorted by points.**
