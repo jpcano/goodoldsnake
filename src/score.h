@@ -19,7 +19,7 @@ struct ScoreItem {
 class Score {
  public:
   Score(const std::string &filename);
-  void Save();
+  ~Score();
   void Push(const Game &game);
   std::vector<ScoreItem> GetEntriesByScore(size_t limit);
   std::vector<ScoreItem> GetEntriesByScore();
@@ -27,6 +27,7 @@ class Score {
   std::vector<ScoreItem> GetEntriesBySize();
 
  private:
+  bool modified{false};
   json _score;
   std::string _filename;
   std::vector<ScoreItem> SortEntriesBy(const std::string &by);

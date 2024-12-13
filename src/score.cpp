@@ -13,9 +13,11 @@ Score::Score(const std::string& filename) : _filename(filename) {
   }
 }
 
-void Score::Save() {
-  std::ofstream out(_filename);
-  out << _score.dump(2) << std::endl;
+Score::~Score() {
+  if (modified) {
+    std::ofstream out(_filename);
+    out << _score.dump(2) << std::endl;
+  }
 }
 
 void Score::Push(const Game& game) {
@@ -29,6 +31,7 @@ void Score::Push(const Game& game) {
   entry["size"] = game.GetSize();
 
   _score["entries"].push_back(entry);
+  modified = true;
 }
 
 std::vector<ScoreItem> Score::GetEntriesByScore() {

@@ -1,6 +1,7 @@
 #include <algorithm>
 #include <cxxopts.hpp>
 #include <iostream>
+#include <memory>
 #include <string>
 
 #include "controller.h"
@@ -69,12 +70,11 @@ int main(int argc, char** argv) {
   std::cout << "Score: " << game.GetScore() << "\n";
   std::cout << "Size: " << game.GetSize() << "\n";
 
-  Score score(result["file"].as<std::string>());
-  score.Push(game);
+  auto score = std::make_unique<Score>(result["file"].as<std::string>());
+  score->Push(game);
   std::cout << "BY SCORE:" << std::endl;
-  printScores(score.GetEntriesByScore(5));
+  printScores(score->GetEntriesByScore(5));
   std::cout << "BY SIZE:" << std::endl;
-  printScores(score.GetEntriesBySize(5));
-  score.Save();
+  printScores(score->GetEntriesBySize(5));
   return 0;
 }
