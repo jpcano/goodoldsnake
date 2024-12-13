@@ -36,7 +36,7 @@ In this project, you can build your own C++ application or extend this Snake gam
 2. Now there are three types of food: Green (1 point), Amber (2 points) and Red (3 points).
 3. The user can pause the game by pressing the "p" key.
 4. The game now saves the scores in a file and displays a scoreboard when the game exits.
-5. When the snakes eats food, it needs 4 seconds to digest it. If a new food is eaten while the snake is digesting the previous food then the it dies.
+5. When the snakes eats food, it needs 4 seconds to digest it. If a new food is eaten while the snake is digesting the previous food then the it dies. While the snake is digesting the food its head becomes green. When it finished the digesting and it is ready to eat the next one its head becomes blue again.
 6. Added CLI arguments to the executable:
    * `--name`: Sets the name of the player
    * `--file`: Sets the name of the file used to save the scores
