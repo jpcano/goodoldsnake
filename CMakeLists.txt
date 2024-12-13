@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.20)
+cmake_minimum_required(VERSION 3.14 FATAL_ERROR)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
@@ -42,11 +42,17 @@ CPMAddPackage(
 
 CPMAddPackage(
   NAME nlohmann_json
-  VERSION 3.11.3
-  GITHUB_REPOSITORY nlohmann/json
-  OPTIONS
-  "JSON_BuildTests OFF"
+  VERSION 3.7.3
+  # the git repo is incredibly large, so we download the archived include directory
+  URL https://github.com/nlohmann/json/releases/download/v3.7.3/include.zip
+  URL_HASH SHA256=87b5884741427220d3a33df1363ae0e8b898099fbc59f1c451113f6732891014
 )
 
+if (nlohmann_json_ADDED)
+  add_library(nlohmann_json INTERFACE IMPORTED)
+  target_include_directories(nlohmann_json INTERFACE ${nlohmann_json_SOURCE_DIR}/include)
+endif()
+
+
 target_link_libraries(SnakeGame cxxopts::cxxopts)
-target_link_libraries(SnakeGame nlohmann_json::nlohmann_json)
+target_link_libraries(SnakeGame nlohmann_json)
