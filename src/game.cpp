@@ -1,6 +1,8 @@
 #include "game.h"
 
+#include <chrono>
 #include <iostream>
+#include <mutex>
 #include <string>
 
 #include "SDL.h"
@@ -28,10 +30,13 @@ void Game::Run(Controller const &controller, Renderer &renderer,
     frame_start = SDL_GetTicks();
 
     // Input, Update, Render - the main game loop.
+
     controller.HandleInput(running, pause, snake);
     if (!pause) {
+      mtx.lock();
       Update();
       renderer.Render(snake, food);
+      mtx.unlock();
     }
 
     frame_end = SDL_GetTicks();
@@ -66,6 +71,13 @@ void Game::PlaceFood() {
   } while (snake.SnakeCell(food.getX(), food.getY()));
 }
 
+void Game::TimerThread() {
+  std::this_thread::sleep_for(std::chrono::seconds(5));
+  // get back to normal after 5 seconds
+  std::lock_guard<std::mutex> lock(mtx);
+  snake.digesting = false;
+}
+
 void Game::Update() {
   if (!snake.alive) return;
 
@@ -76,11 +88,18 @@ void Game::Update() {
 
   // Check if there's food over here
   if (food.getX() == new_x && food.getY() == new_y) {
-    score += food.getPoints();
-    PlaceFood();
-    // Grow snake and increase speed.
-    snake.GrowBody();
-    snake.speed += 0.02;
+    if (snake.digesting) {
+      snake.alive = false;
+    } else {
+      snake.digesting = true;
+      std::thread poisonTimer(&Game::TimerThread, this);
+      poisonTimer.detach();
+      score += food.getPoints();
+      PlaceFood();
+      // Grow snake and increase speed.
+      snake.GrowBody();
+      snake.speed += 0.02;
+    }
   }
 }
 

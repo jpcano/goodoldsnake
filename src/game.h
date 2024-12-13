@@ -2,8 +2,10 @@
 #define GAME_H
 
 #include <array>
+#include <mutex>
 #include <random>
 #include <string>
+#include <thread>
 
 #include "SDL.h"
 #include "controller.h"
@@ -29,6 +31,8 @@ class Game {
 
   void PlaceFood();
   void Update();
+  std::mutex mtx;
+  void TimerThread();
 };
 
 #endif
