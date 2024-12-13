@@ -30,6 +30,46 @@ In this project, you can build your own C++ application or extend this Snake gam
 3. Compile: `cmake .. && make`
 4. Run it: `./SnakeGame`.
 
+## New feature added to the game
+
+1. Apart from the arrow keys the user can control the snake with the "WASD" keys
+2. Now there are three types of food: Green (1 point), Amber (2 points) and Red (3 points).
+3. The user can pause the game by pressing the "p" key.
+4. The game now saves the scores in a file and displays a scoreboard when the game exits.
+5. When the snakes eats food, it needs 4 seconds to digest it. If a new food is eaten while the snake is digesting the previous food then the it dies.
+6. Added CLI arguments to the executable:
+   * --name: Sets the name of the player
+   * --file: Sets the name of the file used to save the scores
+   * --scores: View the scores ordered by points and snake's size
+   * --help: Displays help information about how to use the CLI
+
+## Rubric points addresed
+
+1. README (All Rubric Points REQUIRED)
+   * A README with instructions is included with the project
+   * The README indicates the new features I added to the game.
+   * The README includes information about each rubric point addressed.
+
+2. Compiling and Testing (All Rubric Points REQUIRED)
+   * The submission must compile and run without errors on the Udacity project workspace: **I verified the the project compiles in the workspace without errors.**
+
+3. Loops, Functions, I/O - meet at least 2 criteria
+   * :white_check_mark: The project reads data from a file and process the data, or the program writes data to a file: **The game writes the scoreboard in a JSON file on the disk and it is read at the end of the game to display the scoreboard sorted by points.**
+   * :white_check_mark: The project accepts user input and processes the input: **A new input was added ("p" key) that is used to pause the game.**
+
+4. Object Oriented Programming - meet at least 3 criteria
+   * :white_check_mark: One or more classes are added to the project with appropriate access specifiers for class members: **I added two new classes in total, `Food` and `Score`.**
+   * :white_check_mark: Class constructors utilize member initialization lists: **Both `Food` and `Score` classes uses member initialization lists.**
+   * :white_check_mark: Overloaded functions allow the same function to operate on different parameters: **The Score classes has several methods overloaded, for example `GetEntriesByScore()` is used to get all the entries sorted by score whereas `GetEntriesByScore(size_t limit)` is used to get limit number of entries ordered by score.**
+
+5. Memory Management - meet at least 3 criteria
+   * :white_check_mark: The project makes use of references in function declarations: **The class Score contains two functions that used references as arguments (ie. `SliceLimit()` and `Push()`).**
+   * :white_check_mark: The project uses destructors appropriately. **The Scores clases saves the scores in a file in its destructor.**
+   * :white_check_mark: The project uses smart pointers instead of raw pointers: **In `main.cpp`, the Scores instance is created with a unique pointer and therefore the file resource is protected.**
+
+6. Concurrency - meet at least 2 criteria
+   * :white_check_mark: The project uses multithreading: **The "digesting" timer is controlled by an independant thread created from the main thread.**
+   * :white_check_mark: A mutex or lock is used in the project. **To guaranty that the snake digesting state and the head's color is synchronized properly a exclusive mutex is added to protected the read/write operations from different threads on the boolean digesting.**
 
 ## CC Attribution-ShareAlike 4.0 International
 
